@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="inc/sys/tools.css">
+<title>Test</title>
+	<script>
+
+function Toto( )
+	{
+	this.initToto(  )
+	}
+
+Toto.prototype =
+	{
+	initToto: function( )
+		{
+		this.texte = "hello" ;
+		},
+	// Cree les elements DOM associés
+	linkToDomObject: function( id )
+		{
+		this.element = document.getElementById( id ) ;
+		this.element.object = this ;
+		this.element.onclick = OnClick ;
+		},
+	// Cree les elements DOM associés
+	onClick: function()
+		{
+		var sepdecimal = "," ;
+		var nbdecimal = 2 ;
+		var sepmille = "." ;
+		
+		var r_int = new RegExp( "^[+-]?[0-9]+", "g" ) ;
+		var v_int = r_int.exec( this.element.value )[0] ;
+		var t = "" ;
+		var cc = 0 ;
+		if( sepmille )
+			{
+			for( var i = v_int.length-1 ; i>=0 ; i-- )
+				{
+				if( cc == 3 ) 
+					{
+					cc = 0 ;
+					if( v_int.charAt( i ) != "-" ) t = sepmille + t ;
+					}
+				t = v_int.charAt( i ) + t ;
+				cc++ ;
+				}
+			}
+		else t = v_int ;
+		
+		var r_dec = new RegExp( "[.][0-9]+$", "g" ) ;
+		var v_dec = r_dec.exec( this.element.value ) ;
+		var h_dec = "" ;
+		var nbd = 0 ;
+		if( v_dec )	
+			{
+			h_dec = v_dec[0].substr( 1, nbdecimal ) ;
+			nbd = h_dec.length ;
+			}
+		for( var i=0 ; i<nbdecimal-nbd ; i++ ) h_dec = h_dec + "0" ;
+		
+		alert( t + sepdecimal + h_dec ) ;
+		}
+	} ;
+
+function OnClick( d )
+{
+	this.object.onClick() ;
+}
+
+	</script>
+
+</head>
+<body>
+   <canvas id="canvas" width="300" height="300"></canvas>
+   <textarea></textarea>
+	<div>
+	<input id="toto" value="toto" />
+	</div>
+	<script>
+	var e = new Toto() ;
+	e.linkToDomObject( "toto" ) ;
+	</script>
+</body>
+
+</html>

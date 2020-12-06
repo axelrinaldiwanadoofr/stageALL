@@ -1,0 +1,8 @@
+dbname="test"
+dbsrv="localhost"
+dbusr="root"
+dbpasswd=""
+defaultlangue="FRA"
+startpage="Intro"
+arguments="mode:intro"
+url="alsaceparamoteur.com"
