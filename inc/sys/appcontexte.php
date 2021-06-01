@@ -15,7 +15,7 @@ require_once( "inc/sys/jsinstructionlist.php") ;
 
 
 class AppContexte
-	{
+{
 	// merde
 	// remerde
 	var $indentation ;

@@ -29,26 +29,44 @@ class MySqlDbCursor extends DbCursor
 		}
 
 	function open( $sqltxt )
-		{
+	{
+		//$cursor = $db->prepare( $sqltxt ) ;
+		//if( $cursor->execute( $whereValues ) ) 
+		//while( ($row = $cursor->fetch()) && $numLine < $nbLines  ) 
+
 		$this->sql = $sqltxt ;
-		if( $this->mysqlcursor = mySql_query( $sqltxt, $this->db->db ) ) return true ;
-		die( "Requ�te $sqltxt invalide : " . mysql_error() ) ;
-		return false ;
+		try 
+		{
+			//$this->mysqlcursor = $this->db->prepare( $sqltxt ) ;
+			$this->mysqlcursor = $this->db->query( $sqltxt ) ;
+			return true ;
+		} 
+		catch( PDOException $e ) 
+		{
+			die( "MySqlDbCursor::open Requete $sqltxt invalide : " . $e->getMessage() ) ;
+			return false ;
 		}
+	}
 
 	function requery( $sqltxt )
+	{
+		try 
 		{
-		$this->db->connect() ;
-		$this->sql = $sqltxt ;
-		if( $this->mysqlcursor = mySql_query( $sqltxt, $this->db->db ) ) return true ;
-		die( "Requ�te $sqltxt invalide : " . mysql_error() ) ;
-		return false ;
+			//$this->mysqlcursor = $this->db->query( $sqltxt ) ;
+			$this->mysqlcursor = $this->db->prepare( $sqltxt ) ;
+			return true ;
+		} 
+		catch( PDOException $e ) 
+		{
+			die( "MySqlDbCursor::requery Requete $sqltxt invalide : " . $e->getMessage() ) ;
+			return false ;
 		}
+	}
 
 	function close()
-		{
-		//mysql_close( $this->mysqlcursor ) ;
-		}
+	{
+		$this->mysqlcursor->close() ;
+	}
 
 	function fieldName( $num )
 		{
@@ -120,7 +138,7 @@ class MySqlDbCursor extends DbCursor
 ///////////////////////////////////////////////////////////
 
 class MySqlConnect extends DbConnect
-	{
+{
 	var $db ;
 	var $srv ;
 	var $usr ;
@@ -129,17 +147,17 @@ class MySqlConnect extends DbConnect
 	var $sql ;
 
 	function __construct( $dbname="test", $srv="localhost", $usr="root", $passwd="" )
-		{
+	{
 		$this->dbname = $dbname ;
 		$this->srv = $srv ;
 		$this->usr = $usr ;
 		$this->passwd = $passwd ;
-		}
+	}
 
 	function __destruct()
-		{
+	{
 		if( $this->db ) $this->close() ;
-		}
+	}
 		
 		/*
 	function MySqlConnect( $srv, $usr, $passwd, $dbname )
@@ -152,30 +170,20 @@ class MySqlConnect extends DbConnect
 	*/
 
 	function connect()
-		{
+	{
 		if( !$this->db )
+		{
+			try
 			{
-			if( $this->db = mySql_connect( "$this->srv", "$this->usr", "$this->passwd" ) )
-				{
-				if( mySql_select_db( "$this->dbname", $this->db ) )
-					{
-					if (!mysql_set_charset('utf8', $conn)) 
-						{
-						//die( "Erreur : Impossible de définir le jeu de caractères. Jeu de caractères courant : " .  mysql_client_encoding($conn) ) ;
-						}						
-					return true ;
-					}
-				else
-					{
-					die( "Selection impossible de la base de donnee $this->dnname : " . mysql_error() ) ;
-					}
-				}
-			else
-				{
-				die( "Connexion impossible a $this->srv : " . mysql_error() ) ;
-				}
+				$this->db = new PDO( 'mysql:host=' . $this->srv . ';dbname=' . $this->dbname, $this->usr, $this->passwd );            
+				$this->db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION ) ;
+			}
+			catch( Exception $e )
+			{
+				die( "Connexion impossible a $this->srv : " . $e->getMessage() ) ;
 			}
 		}
+	}
 
 	function selectDB( $dbname )
 		{
@@ -200,13 +208,16 @@ class MySqlConnect extends DbConnect
 		}
 
 	function buildCursor( $sqltxt )
-		{
+	{
 		$sqltxt = str_replace( "\'", "'", $sqltxt ) ;
-		$this->connect() ;
+
+		//$cursor = $db->prepare( $sqltxt ) ;
+		//if( $cursor->execute( $whereValues ) ) 
+		//while( ($row = $cursor->fetch()) && $numLine < $nbLines  ) 
 		$cursor = new MySqlDbCursor( $this ) ;
 		if( $cursor->open( $sqltxt ) ) return $cursor ;
 		else return 0 ;
-		}
+	}
 	// Execute une requette SQL
 	function execute( $sqltxt )
 		{

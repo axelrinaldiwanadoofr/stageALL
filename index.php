@@ -1,5 +1,6 @@
 <?php
-	require_once( "baseinclude.php5") ;
+	
+	require_once( "baseinclude.php") ;
 
 	$config = "" ;
 	if( array_key_exists( "config", $_GET ) )	$config = $_GET["config"] ;
