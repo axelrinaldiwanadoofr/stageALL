@@ -14,14 +14,14 @@
 	
 			
 	if( $appctx )
-		{				
+	{				
 		$url = $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] ;
 		
 		$r_page = $appctx->db->buildCursor( "select * from cms_page where url='$url'" ) ;
 		$page = $r_page->fetchAssoc() ;
 		
 		if( $page )
-			{
+		{
 			$module = $page["module"] ;
 			$appctx->setTitle( $page["title"] ) ;
 			$appctx->setDescription( $page["description"] ) ;
@@ -55,10 +55,10 @@
 			$appctx->endHtmlBody() ;
 		
 			$appctx->sendInstructionsForJs() ;
-			}
-		else
-			{
-			echo( "Erreur: Pas de page définie pour l'URL: $url " ) ;
-			}
 		}
+		else
+		{
+			echo( "Erreur: Pas de page définie pour l'URL: $url " ) ;
+		}
+	}
 ?>
