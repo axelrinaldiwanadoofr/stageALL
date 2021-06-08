@@ -18,26 +18,26 @@ var aobjectsremoved = new Array ; // Tableau regroupant les indices des cases vi
 function addObject( idx, object )
 {
 	if( object )
-		{
+	{
 		object.idx = idx ;
 		aobjects[idx] = object ;
-		}
+	}
 	return object ;
 }
 
 function referenceObject( object, idx )
 {
 	if( idx )
-		{
+	{
 		aobjects[idx] = object ;
 		return idx ;
-		}
+	}
 	if( aobjectsremoved.length )
-		{
+	{
 		var idx = aobjectsremoved.pop() ;
 		aobjects[idx] = object ;
 		return idx ;
-		}
+	}
 	var idx = aobjectcidx++ ;
 	aobjects[idx] = object ;
 	return idx ;
@@ -51,10 +51,10 @@ function getObjectByIdx( idx )
 function unReferenceObject( idx )
 {
 	if( aobjects[idx] )
-		{
+	{
 		if( idx < aobjectcidx )	aobjectsremoved.push( idx ) ;
 		aobjects[idx] = null ;
-		}
+	}
 }
 
 // Execute la methode methode pour tous les objets references
@@ -63,8 +63,8 @@ function executeMethodeForAllObject( methode )
 {
 	var i ;
 	for( i=0 ; i<aobjects.length ; i++ )
-		{
+	{
 		methode.call( aobjects[i] ) ;
-		}
+	}
 }
 
