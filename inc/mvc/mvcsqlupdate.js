@@ -9,14 +9,14 @@
 
 
 function MvcSqlUpdate( classname, keystring, rowstring, mainclassname, mainkeystring, view, methode )
-	{
+{
 	this.initMvcSqlUpdate( classname, keystring, rowstring, mainclassname, mainkeystring, view, methode ) ;
-	}
+}
 
 MvcSqlUpdate.prototype =
-	{
+{
 	initMvcSqlUpdate: function( classname, keystring, rowstring, mainclassname, mainkeystring, view, methode )
-		{
+	{
 		this.classname = classname ;
 		this.keystring = keystring ;
 		this.rowstring = rowstring ;
@@ -24,10 +24,11 @@ MvcSqlUpdate.prototype =
 		this.mainkeystring = mainkeystring ;
 		this.view = view ;
 		this.methode = methode ;
-		},
+	},
+
 	updateModele: function()
-		{
-		var request_head = "mvcsqlupdate.php5?classname=" + this.classname ;
+	{
+		var request_head = "mvcsqlupdate.php?classname=" + this.classname ;
 		if( this.mainclassname ) request_head += "&mainclassname=" + this.mainclassname ;
 		if( this.mainkeystring ) request_head += "&mainkeystring=" + this.mainkeystring ;
 		request_head += "&keystring=" + ayawf.tools.prepare_to_send( this.keystring ) ;
@@ -36,25 +37,26 @@ MvcSqlUpdate.prototype =
 		var length = data.length ;
 		var nbr = length/400 ;
 		for( var i=0 ; i<nbr ; i++ )
-			{
+		{
 			var starti = i*400 ;
 			var endi = (i+1)*400 ;
 			if( endi >= length ) endi = length ;
 			var request_data = data.substring( starti, endi ) ; 
 			if( !i ) 
-				{
+			{
 				if( nbr < 1 ) var request = request_head + "&state=startend&rowstring=" + request_data ;
 				else var request = request_head + "&state=start&rowstring=" + request_data ;
-				}
+			}
 			else if( i >= nbr-1 ) var request = request_head + "&state=end&rowstring=" + request_data ;
 			else var request = request_head + "&state=continue&rowstring=" + request_data ;
 			AjaxSendRequest( request, this, this.onReceveAnswer ) ;
-			}
+		}
 		return false ;
-		},
+	},
+
 	// A reception de la reponse AJAX
 	onReceveAnswer: function( answer )
-		{
+	{
 		ayawf.mvc.updateModeleFromAjaxAnswer( this.classname, this.view, this.methode, false, answer ) ;
-		}
-	};
+	}
+};

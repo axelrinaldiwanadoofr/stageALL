@@ -7,31 +7,33 @@
 
 
 function MvcSqlCopy( classname, keystring, rowstring, view, methode )
-	{
+{
 	this.initMvcSqlCopy( classname, keystring, rowstring, view, methode ) ;
-	}
+}
 
 MvcSqlCopy.prototype =
-	{
+{
 	initMvcSqlCopy: function( classname, keystring, rowstring, view, methode )
-		{
+	{
 		this.classname = classname ;
 		this.keystring = keystring ;
 		this.rowstring = rowstring ;
 		this.view = view ;
 		this.methode = methode ;
-		},
+	},
+
 	copyModele: function()
-		{
-		var request = "mvcsqlcopy.php5?classname=" + this.classname ;
+	{
+		var request = "mvcsqlcopy.php?classname=" + this.classname ;
 		request += "&keystring=" + this.keystring ;
 		request += "&rowstring=" + this.rowstring ;
 		AjaxSendRequest( request, this, this.onReceveAnswer ) ;
 		return false ;
-		},
+	},
+
 	// A reception de la reponse AJAX
 	onReceveAnswer: function( answer )
-		{
+	{
 		ayawf.mvc.updateModeleFromAjaxAnswer( this.classname, this.view, this.methode, false, answer ) ;
-		}
-	};
+	}
+};

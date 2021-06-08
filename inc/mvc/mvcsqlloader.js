@@ -13,14 +13,14 @@
 
 
 function MvcSqlLoader( classname, from, where, orderby, view, methode, updviewanyway, firstrow, lastrow, step, timeout )
-	{
+{
 	this.initMvcSqlLoader( classname, from, where, orderby, view, methode, updviewanyway, firstrow, lastrow, step, timeout ) ;
-	}
+}
 
 MvcSqlLoader.prototype =
-	{
+{
 	initMvcSqlLoader: function( classname, from, where, orderby, view, methode, updviewanyway, firstnrow, lastnrow, step, timeout )
-		{
+	{
 		this.from = from ;
 		this.where = where ;
 		this.orderby = orderby ;
@@ -30,25 +30,26 @@ MvcSqlLoader.prototype =
 		if( updviewanyway ) this.updviewanyway = updviewanyway ;
 		else this.updviewanyway = false ;		
 		if( firstnrow ) 
-			{
+		{
 			this.firstnrow = firstnrow ;
 			this.nrow = firstnrow ;
-			}
+		}
 		else
-			{
+		{
 			this.firstnrow = 0 ;
 			this.nrow = 0 ;
-			}
+		}
 		if( lastnrow ) this.lastnrow = lastnrow ;
 		else this.lastnrow = 999999 ;
 		if( step ) this.step = step ;
 		else this.step = 32 ;
 		if( timeout ) this.timeout = timeout ;
 		else this.timeout = 10 ;
-		},
+	},
+
 	loadModeles: function()
-		{
-		var request = "mvcsqlloader.php5?classname=" + this.classname ;
+	{
+		var request = "mvcsqlloader.php?classname=" + this.classname ;
 		request += "&from=" + this.from ;
 		if( this.where ) request += "&where=" + this.where ;
 		if( this.orderby ) request += "&orderby=" + this.orderby ;
@@ -57,19 +58,20 @@ MvcSqlLoader.prototype =
 		else request += "&lastnrow=" + parseInt(this.nrow) + parseInt(this.step) ;
 		AjaxSendRequest( request, this, this.onReceveAnswer ) ;
 		return false ;
-		},
+	},
+
 	// A reception de la reponse AJAX
 	onReceveAnswer: function( answer )
-		{
+	{
 		if( ayawf.mvc.updateModeleFromAjaxAnswer( this.classname, this.view, this.methode, this.updviewanyway, answer ) )
-			{
+		{
 			// Lance le chargement de la suite.
 			if( this.nrow < this.lastnrow )
-				{
+			{
 				this.nrow += this.step ;
 				if( this.nrow > this.lastnrow ) this.nrow = this.lastnrow ;
 				ayawf.ontimer.add( new MethodeCaller( this, this.loadModeles ) ) ;
-				}
 			}
 		}
-	};
+	}
+};

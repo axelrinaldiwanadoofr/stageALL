@@ -106,7 +106,7 @@ class vwCmsLinkNode extends vwCmsNode
 		//$arguments = utf8_decode( $this->getArguments() ) ;
 		$arguments = $this->getArguments() ;
 		$appctx->PushIndent() ;
-		$appctx->sendHtml( "<a id=\"$this->idx\" class=\"$style\" href=\"cmsloader.php5?config=$config&module=$this->moduletocall&arguments=$arguments\">" ) ;
+		$appctx->sendHtml( "<a id=\"$this->idx\" class=\"$style\" href=\"cmsloader.php?config=$config&module=$this->moduletocall&arguments=$arguments\">" ) ;
 	}
 
 	// Genere le contenu

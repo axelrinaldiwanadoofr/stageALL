@@ -7,29 +7,31 @@
 
 
 function MvcSqlNew( classname, rowstring, view, methode )
-	{
+{
 	this.initMvcSqlNew( classname, rowstring, view, methode ) ;
-	}
+}
 
 MvcSqlNew.prototype =
-	{
+{
 	initMvcSqlNew: function( classname, rowstring, view, methode )
-		{
+	{
 		this.classname = classname ;
 		this.rowstring = rowstring ;
 		this.view = view ;
 		this.methode = methode ;
-		},
+	},
+
 	newModele: function()
-		{
+	{
 		var request = "mvcsqlnew.php5?classname=" + this.classname ;
 		if( this.rowstring ) request += "&rowstring=" + this.rowstring ;
 		AjaxSendRequest( request, this, this.onReceveAnswer ) ;
 		return false ;
-		},
+	},
+
 	// A reception de la reponse AJAX
 	onReceveAnswer: function( answer )
-		{
+	{
 		ayawf.mvc.updateModeleFromAjaxAnswer( this.classname, this.view, this.methode, false, answer ) ;
-		}
-	};
+	}
+};
