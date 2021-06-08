@@ -2,7 +2,7 @@
 //////////////////////////////////////////////////////////
 // cmsnode.php
 //
-// Définition d'un noeud de CMS
+// Dï¿½finition d'un noeud de CMS
 //
 // 20/03/2010
 // Copyright 2005 Axel RINALDI
@@ -106,7 +106,7 @@ class CmsNode extends Factory
 	}
 	
 	
-class inCmsNode extends Object
+class inCmsNode extends BaseObject
 	{
 	protected $spnode ; // Partie specifique du noeud
 	protected $parent ; // Noeud pere
@@ -209,7 +209,7 @@ class inCmsNode extends Object
 		return null ;
 		}		
 		
-	// Renvoie les valeurs de la partie specifique du noeud et du node associé comme s'il s'agissait d'un meme objet specifique
+	// Renvoie les valeurs de la partie specifique du noeud et du node associï¿½ comme s'il s'agissait d'un meme objet specifique
 	public function sendAnswerValues( $appctx )
 		{
 		if( $this->spnode ) 
