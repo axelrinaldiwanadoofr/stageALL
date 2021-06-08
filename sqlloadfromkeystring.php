@@ -1,5 +1,5 @@
 <?php
-	require_once( "baseinclude.php5") ;
+	require_once( "baseinclude.php") ;
 
 	session_start() ;
 
